@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Frown, Loader2, ChefHat, Plus, Utensils, Heart, Search, Star, Clock, Users, ChevronRight, Drumstick, Pizza, Coffee, Sprout, Soup } from 'lucide-react';
+import { Frown, Loader2, ChefHat, Plus, Utensils, Search, Star, Users, ChevronRight, Drumstick, Pizza, Coffee, Sprout, Soup } from 'lucide-react';
 import { useApi } from '../hooks/useApi';
 import RecipeCard from '../components/RecipeCard';
 import { useNavigate } from 'react-router-dom';

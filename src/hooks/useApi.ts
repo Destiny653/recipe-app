@@ -5,7 +5,7 @@ import type { AxiosRequestConfig } from 'axios';
 import { useToast } from './use-toast';
 import { useAuth } from '../contexts/AuthContext';
 
-const API_URL = 'http://localhost:5000/api'; // Make sure this matches your backend URL
+const API_URL = 'https://recipe-server-y83k.onrender.com/api'; // Make sure this matches your backend URL
 
 const api = axios.create({
   baseURL: API_URL,

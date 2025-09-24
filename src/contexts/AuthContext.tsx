@@ -31,6 +31,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = (newToken: string, username: string) => {
     setToken(newToken);
+    console.log(username)
     localStorage.setItem('token', newToken);
     setShowAuthModal(false);
   };

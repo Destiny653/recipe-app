@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Clock, Flame, Utensils, Star, Heart, Loader2, Frown, StarHalf, User } from 'lucide-react';
+import { Clock, Flame, Utensils, Star, Heart, Loader2, Frown, User } from 'lucide-react';
 import { useApi } from '../hooks/useApi';
 import { Button } from '../components/ui/button';
 import { Separator } from '../components/ui/separator';

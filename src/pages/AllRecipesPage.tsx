@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Frown, Loader2, Search, Filter, ChevronRight, ChevronLeft, XCircle, Star, X } from 'lucide-react';
+import { motion} from 'framer-motion';
+import { Frown, Loader2, Search, Filter, ChevronRight, ChevronLeft, Star, X } from 'lucide-react';
 import { useApi } from '../hooks/useApi';
 import RecipeCard from '../components/RecipeCard';
 import { useToast } from '../hooks/use-toast';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+// import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Separator } from '../components/ui/separator';
 
@@ -55,7 +55,7 @@ const AllRecipesPage: React.FC = () => {
   const [difficultyFilter, setDifficultyFilter] = useState<string>('');
   const [starRatingFilter, setStarRatingFilter] = useState<number>(0);
   const [sortOption, setSortOption] = useState<string>('');
-  const [showFilters, setShowFilters] = useState<boolean>(false);
+  // const [showFilters, setShowFilters] = useState<boolean>(false);
   
   // Pagination states
   const [currentPage, setCurrentPage] = useState<number>(1);

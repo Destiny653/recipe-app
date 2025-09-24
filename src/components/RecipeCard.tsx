@@ -1,12 +1,11 @@
-// File: src/components/RecipeCard.tsx
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Star, StarHalf, Clock, Flame, Utensils, User, Heart } from 'lucide-react';
+import { Star, StarHalf, Clock, Flame, Utensils, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { useApi } from '../hooks/useApi';
 import { useAuth } from '../contexts/AuthContext';
-import { useToast } from '../hooks/use-toast';
+// import { useToast } from '../hooks/use-toast';
 
 interface RecipeCardProps {
   recipe: {
@@ -28,14 +27,12 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
   const [imageSrc, setImageSrc] = useState(
     recipe.image.startsWith('/images/') ? recipe.image : `http://localhost:5000${recipe.image}`
   );
-  const [isFavorited, setIsFavorited] = useState(false);
-  const [userRating, setUserRating] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<any>(null);
+  console.log(user)
 
   const { request } = useApi();
   const { isAuthenticated, token } = useAuth();
-  const { toast } = useToast();
+  // const toast = useToast();
 
   useEffect(() => {
     if (isAuthenticated && token) {
