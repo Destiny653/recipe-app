@@ -1,16 +1,17 @@
 // File: src/components/ProtectedRoute.tsx
 import React, { type ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const token = localStorage.getItem('token');
+  const { isAuthenticated, setShowAuthModal } = useAuth();
 
-  if (!token) {
-    return <Navigate to="/auth" replace />;
+  if (!isAuthenticated) {
+    setShowAuthModal(true);
+    return null; // Don't render children until authenticated
   }
 
   return <>{children}</>;

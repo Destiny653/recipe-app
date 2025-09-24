@@ -1,10 +1,12 @@
 // File: src/pages/RecipeDetailPage.tsx
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Frown, Loader2, Clock, Flame, Star, StarHalf } from 'lucide-react';
+import { Clock, Flame, Utensils, Star, Heart, Loader2, Frown, StarHalf, User } from 'lucide-react';
 import { useApi } from '../hooks/useApi';
+import { Button } from '../components/ui/button';
 import { Separator } from '../components/ui/separator';
+import { useToast } from '../hooks/use-toast';
 
 interface Recipe {
   _id: string;
@@ -15,59 +17,121 @@ interface Recipe {
   preparationSteps: string[];
   cookingTime: number;
   calories: number;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
+  difficulty: string;
   cuisine: string;
   diet: string;
+  author: {
+    username: string;
+  };
   averageRating: number;
 }
 
 const RecipeDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
+  const navigate = useNavigate();
   const { request } = useApi();
+  const { toast } = useToast();
+
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+
     const fetchRecipe = async () => {
       setLoading(true);
-      if (!id) {
-        setError(true);
-        setLoading(false);
-        return;
-      }
-      const data = await request<Recipe>({ url: `/recipes/${id}`, method: 'GET' });
+      const data = await request<Recipe>({
+        url: `/recipes/${id}`,
+        method: 'GET'
+      });
       if (data) {
         setRecipe(data);
+        checkIfFavorited(data);
       } else {
         setError(true);
       }
       setLoading(false);
     };
 
-    fetchRecipe();
+    const checkIfFavorited = async (recipeData: Recipe) => {
+      if (!token) return;
+      const profile = await request<{ favorites: string[] }>({ url: '/users/profile', method: 'GET' });
+      if (profile) {
+        setIsFavorited(profile.favorites.includes(recipeData._id));
+      }
+    };
+    
+    if (id) {
+      fetchRecipe();
+    }
   }, [id, request]);
 
-  const renderStars = (rating: number) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
+  const handleFavorite = async () => {
+    if (!isLoggedIn) {
+      toast({
+        title: "Login Required",
+        description: "Please log in to add recipes to your favorites.",
+        variant: "destructive",
+      });
+      return;
+    }
+    const endpoint = isFavorited ? `/users/favorites/remove/${id}` : `/users/favorites/add/${id}`;
+    const data = await request({ url: endpoint, method: 'PUT' });
+    if (data) {
+      setIsFavorited(!isFavorited);
+      toast({
+        title: "Success",
+        description: isFavorited ? "Recipe removed from favorites!" : "Recipe added to favorites!",
+      });
+    }
+  };
 
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<Star key={i} className="w-5 h-5 text-compass-primary fill-compass-primary" />);
+  const handleRating = async (rating: number) => {
+    if (!isLoggedIn) {
+      toast({
+        title: "Login Required",
+        description: "Please log in to rate recipes.",
+        variant: "destructive",
+      });
+      return;
     }
-    if (hasHalfStar) {
-      stars.push(<StarHalf key="half" className="w-5 h-5 text-compass-primary fill-compass-primary" />);
+    const data = await request({ url: `/recipes/${id}/rate`, method: 'POST', data: { rating } });
+    if (data) {
+      toast({
+        title: "Thank you!",
+        description: "Your rating has been submitted.",
+      });
+      // Refetch the recipe to update the average rating display
+      const updatedRecipe = await request<Recipe>({ url: `/recipes/${id}`, method: 'GET' });
+      if (updatedRecipe) {
+        setRecipe(updatedRecipe);
+      }
     }
-    while (stars.length < 5) {
-      stars.push(<Star key={stars.length} className="w-5 h-5 text-gray-300" />);
+  };
+
+  const renderStars = (rating: number, interactive: boolean = false) => {
+    const stars = [];
+
+    for (let i = 1; i <= 5; i++) {
+      const isActive = i <= rating;
+      stars.push(
+        <Star
+          key={i}
+          className={`w-5 h-5 ${interactive ? 'cursor-pointer hover:text-yellow-400' : ''} ${isActive ? 'text-compass-primary fill-compass-primary' : 'text-gray-300'}`}
+          onClick={interactive ? () => handleRating(i) : undefined}
+        />
+      );
     }
     return stars;
   };
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[80vh]">
+      <div className="flex flex-col items-center justify-center min-h-[80vh] pt-24">
         <motion.div
           initial={{ rotate: 0 }}
           animate={{ rotate: 360 }}
@@ -75,86 +139,110 @@ const RecipeDetailPage: React.FC = () => {
         >
           <Loader2 className="w-16 h-16 text-compass-primary" />
         </motion.div>
-        <p className="mt-4 text-gray-600">Preparing the recipe...</p>
+        <p className="mt-4 text-gray-600">Finding your perfect recipe...</p>
       </div>
     );
   }
 
   if (error || !recipe) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[80vh] text-center p-4">
+      <div className="flex flex-col items-center justify-center min-h-[80vh] text-center p-4 pt-24">
         <Frown className="w-16 h-16 text-destructive" />
         <h2 className="text-2xl font-semibold mt-4">Recipe Not Found</h2>
         <p className="text-gray-600 mt-2">
-          The recipe you are looking for might not exist or has been moved.
+          It looks like this recipe either doesn't exist or was removed.
         </p>
+        <Button onClick={() => navigate('/')} className="mt-4 bg-compass-primary hover:bg-orange-600">
+          Go Home
+        </Button>
       </div>
     );
   }
 
   return (
     <div className="container mx-auto py-8 pt-24">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="bg-white rounded-2xl shadow-lg p-6 md:p-10"
-      >
-        <motion.img
-          src={`http://localhost:5000${recipe.image}`}
-          alt={recipe.title}
-          className="w-full h-80 object-cover object-center rounded-xl shadow-lg mb-8"
-          initial={{ scale: 0.95 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.8 }}
-        />
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-          <h1 className="text-4xl md:text-5xl font-playfair font-bold text-gray-800 mb-2 md:mb-0">{recipe.title}</h1>
-          <div className="flex items-center space-x-2 mt-2 md:mt-0">
-            {renderStars(recipe.averageRating)}
-            <span className="text-lg font-poppins text-gray-600">
-              {recipe.averageRating.toFixed(1)} / 5
-            </span>
-          </div>
-        </div>
-        
-        <p className="text-gray-700 mt-4 mb-6 font-poppins">{recipe.description}</p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center text-gray-700 font-poppins">
-          <div className="bg-gray-100 rounded-lg p-4 flex items-center justify-center space-x-2">
-            <Clock className="w-6 h-6 text-compass-primary" />
-            <span>{recipe.cookingTime} min</span>
-          </div>
-          <div className="bg-gray-100 rounded-lg p-4 flex items-center justify-center space-x-2">
-            <Flame className="w-6 h-6 text-compass-primary" />
-            <span>{recipe.calories} kcal</span>
-          </div>
-          <div className="bg-gray-100 rounded-lg p-4 flex items-center justify-center space-x-2">
-            <span>{recipe.difficulty}</span>
-          </div>
-        </div>
+      <div className="bg-white rounded-2xl shadow-lg p-6 md:p-10 mb-8 font-poppins">
+        <div className="md:flex md:space-x-12">
+          {/* Image and quick details section */}
+          <div className="w-full md:w-1/2">
+            <motion.img
+              src={`http://localhost:5000${recipe.image}`}
+              alt={recipe.title}
+              className="w-full h-auto rounded-2xl object-cover shadow-md"
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5 }}
+            />
+            
+            {/* New, styled details section */}
+            <div className="mt-6 p-4 bg-gray-50 rounded-xl shadow-inner border border-gray-100 grid grid-cols-2 sm:grid-cols-2 gap-4 text-gray-700">
+              <div className="flex items-center space-x-2">
+                <Clock className="w-5 h-5 text-gray-500" />
+                <span className="text-sm md:text-base">{recipe.cookingTime} min</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Flame className="w-5 h-5 text-gray-500" />
+                <span className="text-sm md:text-base">{recipe.calories} kcal</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Utensils className="w-5 h-5 text-gray-500" />
+                <span className="text-sm md:text-base capitalize">{recipe.difficulty}</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <User className="w-5 h-5 text-gray-500" />
+                <span className="text-sm md:text-base">by {recipe.author?.username || 'Guest'}</span>
+              </div>
+            </div>
 
-        <Separator className="my-8 bg-gray-200" />
-        
-        <div className="grid md:grid-cols-2 gap-10 font-poppins">
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800">Ingredients</h2>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
-              {recipe.ingredients.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
+            <div className="mt-6 flex flex-col space-y-4">
+              <div className="flex items-center space-x-2">
+                {renderStars(Math.round(recipe.averageRating))}
+                <span className="ml-2 text-sm text-gray-600">
+                    {recipe.averageRating > 0 ? `${recipe.averageRating.toFixed(1)}/5` : 'No ratings yet'}
+                </span>
+              </div>
+              {isLoggedIn && (
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm text-gray-600">Rate this recipe:</span>
+                  {renderStars(0, true)}
+                </div>
+              )}
+              <Button 
+                onClick={handleFavorite} 
+                className={`w-full transition-colors rounded-xl font-bold ${isFavorited ? 'bg-red-500 hover:bg-red-600' : 'bg-compass-primary hover:bg-orange-600'} text-white`}
+              >
+                <Heart className="w-5 h-5 mr-2" />
+                {isFavorited ? 'Remove from Favorites' : 'Add to Favorites'}
+              </Button>
+            </div>
           </div>
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800">Preparation Steps</h2>
-            <ol className="list-decimal list-inside space-y-2 text-gray-700">
-              {recipe.preparationSteps.map((step, index) => (
-                <li key={index}>{step}</li>
-              ))}
-            </ol>
+
+          {/* Recipe content section */}
+          <div className="w-full md:w-1/2 mt-8 md:mt-0">
+            <h1 className="text-4xl md:text-5xl font-playfair font-bold text-gray-900 leading-tight">{recipe.title}</h1>
+            <p className="mt-2 text-xl text-gray-600 leading-relaxed">{recipe.description}</p>
+            <Separator className="my-8 bg-gray-200" />
+            
+            <div className="mt-8">
+              <h2 className="text-2xl font-semibold font-playfair text-gray-800">Ingredients</h2>
+              <ul className="list-disc list-inside mt-2 text-gray-700 space-y-1">
+                {Array.isArray(recipe.ingredients) && recipe.ingredients.map((ingredient, index) => (
+                  <li key={index}>{ingredient}</li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="mt-8">
+              <h2 className="text-2xl font-semibold font-playfair text-gray-800">Preparation</h2>
+              <ol className="list-decimal list-inside mt-2 text-gray-700 space-y-2">
+                {Array.isArray(recipe.preparationSteps) && recipe.preparationSteps.map((step, index) => (
+                  <li key={index}>{step}</li>
+                ))}
+              </ol>
+            </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
