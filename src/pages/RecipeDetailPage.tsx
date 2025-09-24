@@ -1,4 +1,3 @@
-// File: src/pages/RecipeDetailPage.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -105,7 +104,6 @@ const RecipeDetailPage: React.FC = () => {
         title: "Thank you!",
         description: "Your rating has been submitted.",
       });
-      // Refetch the recipe to update the average rating display
       const updatedRecipe = await request<Recipe>({ url: `/recipes/${id}`, method: 'GET' });
       if (updatedRecipe) {
         setRecipe(updatedRecipe);
@@ -152,7 +150,7 @@ const RecipeDetailPage: React.FC = () => {
         <p className="text-gray-600 mt-2">
           It looks like this recipe either doesn't exist or was removed.
         </p>
-        <Button onClick={() => navigate('/')} className="mt-4 bg-compass-primary hover:bg-orange-600">
+        <Button onClick={() => navigate('/')} className="mt-4 bg-compass-primary hover:bg-orange-600 py-8 sm:py-6">
           Go Home
         </Button>
       </div>
@@ -161,10 +159,11 @@ const RecipeDetailPage: React.FC = () => {
 
   return (
     <div className="container mx-auto py-8 pt-24">
-      <div className="bg-white rounded-2xl shadow-lg p-6 md:p-10 mb-8 font-poppins">
-        <div className="md:flex md:space-x-12">
+      {/* Changed max-w-4xl to max-w-6xl for wider card */}
+      <div className="bg-white rounded-2xl shadow-lg p-4 md:p-6 mb-8 font-poppins max-w-6xl mx-auto">
+        <div className="md:flex md:space-x-8 items-start">
           {/* Image and quick details section */}
-          <div className="w-full md:w-1/2">
+          <div className="w-full md:w-1/2 flex-shrink-0">
             <motion.img
               src={`http://localhost:5000${recipe.image}`}
               alt={recipe.title}
@@ -174,7 +173,6 @@ const RecipeDetailPage: React.FC = () => {
               transition={{ duration: 0.5 }}
             />
             
-            {/* New, styled details section */}
             <div className="mt-6 p-4 bg-gray-50 rounded-xl shadow-inner border border-gray-100 grid grid-cols-2 sm:grid-cols-2 gap-4 text-gray-700">
               <div className="flex items-center space-x-2">
                 <Clock className="w-5 h-5 text-gray-500" />
@@ -207,9 +205,9 @@ const RecipeDetailPage: React.FC = () => {
                   {renderStars(0, true)}
                 </div>
               )}
-              <Button 
-                onClick={handleFavorite} 
-                className={`w-full transition-colors rounded-xl font-bold ${isFavorited ? 'bg-red-500 hover:bg-red-600' : 'bg-compass-primary hover:bg-orange-600'} text-white`}
+              <Button
+                onClick={handleFavorite}
+                className={`w-full transition-colors rounded-xl font-bold py-8 sm:py-6 ${isFavorited ? 'bg-red-500 hover:bg-red-600' : 'bg-compass-primary hover:bg-orange-600'} text-white`}
               >
                 <Heart className="w-5 h-5 mr-2" />
                 {isFavorited ? 'Remove from Favorites' : 'Add to Favorites'}

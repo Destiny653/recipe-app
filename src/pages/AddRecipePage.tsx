@@ -136,7 +136,7 @@ const AddRecipePage: React.FC = () => {
                     value={title} 
                     onChange={(e) => setTitle(e.target.value)} 
                     required 
-                    className="h-12 text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors"
+                    className="h-12 text-lg border-2 border-gray-200 py-8 md:py6 focus:border-compass-primary rounded-xl transition-colors"
                     placeholder="Enter your recipe name..."
                   />
                 </div>
@@ -150,7 +150,7 @@ const AddRecipePage: React.FC = () => {
                     value={cuisine} 
                     onChange={(e) => setCuisine(e.target.value)} 
                     required 
-                    className="h-12 text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors"
+                    className="h-12 text-lg border-2 border-gray-200 py-8 md:py6 focus:border-compass-primary rounded-xl transition-colors"
                     placeholder="e.g., Italian, Mexican, Asian..."
                   />
                 </div>
@@ -160,12 +160,12 @@ const AddRecipePage: React.FC = () => {
                 <Label htmlFor="description" className="text-lg font-medium text-gray-700">
                   Description *
                 </Label>
-                <Textarea 
-                  id="description" 
-                  value={description} 
-                  onChange={(e) => setDescription(e.target.value)} 
-                  required 
-                  className="min-h-[120px] text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors resize-none"
+                <Textarea
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                  className="min-h-[120px] text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors resize-none py-8 sm:py-6"
                   placeholder="Tell us about your recipe - what makes it special?"
                 />
               </div>
@@ -219,7 +219,7 @@ const AddRecipePage: React.FC = () => {
                         <Button
                           type="button"
                           onClick={removeImage}
-                          className="bg-red-500 hover:bg-red-600 text-white"
+                          className="bg-red-500 hover:bg-red-600 text-white py-8 sm:py-6"
                         >
                           Remove Image
                         </Button>
@@ -247,13 +247,13 @@ const AddRecipePage: React.FC = () => {
                     Cooking Time *
                   </Label>
                   <div className="relative">
-                    <Input 
-                      id="time" 
-                      type="number" 
-                      value={cookingTime} 
-                      onChange={(e) => setCookingTime(e.target.value)} 
-                      required 
-                      className="h-12 text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors pr-16"
+                    <Input
+                      id="time"
+                      type="number"
+                      value={cookingTime}
+                      onChange={(e) => setCookingTime(e.target.value)}
+                      required
+                      className="h-12 text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors pr-16 py-8 sm:py-6"
                       placeholder="30"
                       min="1"
                     />
@@ -266,13 +266,13 @@ const AddRecipePage: React.FC = () => {
                     Calories *
                   </Label>
                   <div className="relative">
-                    <Input 
-                      id="calories" 
-                      type="number" 
-                      value={calories} 
-                      onChange={(e) => setCalories(e.target.value)} 
-                      required 
-                      className="h-12 text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors pr-16"
+                    <Input
+                      id="calories"
+                      type="number"
+                      value={calories}
+                      onChange={(e) => setCalories(e.target.value)}
+                      required
+                      className="h-12 text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors pr-16 py-8 sm:py-6"
                       placeholder="250"
                       min="1"
                     />
@@ -300,12 +300,12 @@ const AddRecipePage: React.FC = () => {
                   <Label htmlFor="diet" className="text-lg font-medium text-gray-700">
                     Diet Type *
                   </Label>
-                  <Input 
-                    id="diet" 
-                    value={diet} 
-                    onChange={(e) => setDiet(e.target.value)} 
-                    required 
-                    className="h-12 text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors"
+                  <Input
+                    id="diet"
+                    value={diet}
+                    onChange={(e) => setDiet(e.target.value)}
+                    required
+                    className="h-12 text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors py-8 sm:py-6"
                     placeholder="e.g., Vegetarian, Keto, Gluten-free..."
                   />
                 </div>
@@ -328,12 +328,12 @@ const AddRecipePage: React.FC = () => {
                   <Label htmlFor="ingredients" className="text-lg font-medium text-gray-700">
                     Ingredients *
                   </Label>
-                  <Textarea 
-                    id="ingredients" 
-                    value={ingredients} 
-                    onChange={(e) => setIngredients(e.target.value)} 
-                    required 
-                    className="min-h-[200px] text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors resize-none"
+                  <Textarea
+                    id="ingredients"
+                    value={ingredients}
+                    onChange={(e) => setIngredients(e.target.value)}
+                    required
+                    className="min-h-[200px] text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors resize-none py-8 sm:py-6"
                     placeholder="Enter each ingredient on a new line:&#10;• 2 cups flour&#10;• 1 tsp salt&#10;• 3 eggs..."
                   />
                   <p className="text-sm text-gray-500">Enter one ingredient per line</p>
@@ -343,12 +343,12 @@ const AddRecipePage: React.FC = () => {
                   <Label htmlFor="steps" className="text-lg font-medium text-gray-700">
                     Preparation Steps *
                   </Label>
-                  <Textarea 
-                    id="steps" 
-                    value={preparationSteps} 
-                    onChange={(e) => setPreparationSteps(e.target.value)} 
-                    required 
-                    className="min-h-[200px] text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors resize-none"
+                  <Textarea
+                    id="steps"
+                    value={preparationSteps}
+                    onChange={(e) => setPreparationSteps(e.target.value)}
+                    required
+                    className="min-h-[200px] text-lg border-2 border-gray-200 focus:border-compass-primary rounded-xl transition-colors resize-none py-8 sm:py-6"
                     placeholder="Enter each step on a new line:&#10;1. Preheat oven to 350°F&#10;2. Mix dry ingredients&#10;3. Add wet ingredients..."
                   />
                   <p className="text-sm text-gray-500">Enter one step per line</p>
@@ -363,9 +363,9 @@ const AddRecipePage: React.FC = () => {
               transition={{ delay: 0.7, duration: 0.6 }}
               className="pt-6"
             >
-              <Button 
-                type="submit" 
-                className="w-full h-14 bg-gradient-to-r from-compass-primary to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-poppins text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              <Button
+                type="submit"
+                className="w-full h-14 bg-gradient-to-r from-compass-primary to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-poppins text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 py-8 sm:py-6"
               >
                 Share Your Recipe
               </Button>

@@ -1,4 +1,3 @@
-// File: src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
@@ -12,6 +11,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AuthModal from './components/AuthModal';
 import { Toaster } from './components/ui/toaster';
 import { AuthProvider } from './contexts/AuthContext';
+import AllRecipesPage from './pages/AllRecipesPage'; // Import the new page
 
 const App: React.FC = () => {
   return (
@@ -23,6 +23,7 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/recipe/:id" element={<RecipeDetailPage />} />
+              <Route path="/recipes" element={<AllRecipesPage />} /> {/* Add the new route here */}
               <Route path="/auth" element={<AuthPage />} />
               
               {/* These routes are now protected */}

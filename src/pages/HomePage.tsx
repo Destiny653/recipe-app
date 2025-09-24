@@ -94,13 +94,13 @@ const HomePage: React.FC = () => {
   ];
 
   const cuisines: Cuisine[] = [
-    { name: 'Italian', icon: Pizza, colors: { bg: 'from-orange-400 to-red-500', text: 'text-white' } },
-    { name: 'Mexican', icon: Utensils, colors: { bg: 'from-red-600 to-amber-500', text: 'text-white' } },
-    { name: 'Asian', icon: Utensils, colors: { bg: 'from-yellow-500 to-orange-600', text: 'text-white' } },
-    { name: 'American', icon: Drumstick, colors: { bg: 'from-blue-400 to-blue-600', text: 'text-white' } },
-    { name: 'French', icon: Coffee, colors: { bg: 'from-rose-500 to-purple-600', text: 'text-white' } },
-    { name: 'Vegetarian', icon: Sprout, colors: { bg: 'from-lime-500 to-rose-400', text: 'text-white' } },
-    { name: 'Soups', icon: Soup, colors: { bg: 'from-amber-400 to-red-500', text: 'text-white' } },
+    { name: 'Italian', icon: Pizza, colors: { bg: 'from-compass-primary to-compass-primary', text: 'text-white' } },
+    { name: 'Mexican', icon: Utensils, colors: { bg: 'from-compass-primary to-compass-primary', text: 'text-white' } },
+    { name: 'Asian', icon: Utensils, colors: { bg: 'from-compass-primary to-compass-primary', text: 'text-white' } },
+    { name: 'American', icon: Drumstick, colors: { bg: 'from-compass-primary to-compass-primary', text: 'text-white' } },
+    { name: 'French', icon: Coffee, colors: { bg: 'from-compass-primary to-compass-primary', text: 'text-white' } },
+    { name: 'Vegetarian', icon: Sprout, colors: { bg: 'from-compass-primary to-compass-primary', text: 'text-white' } },
+    { name: 'Soups', icon: Soup, colors: { bg: 'from-compass-primary to-compass-primary', text: 'text-white' } },
   ];
 
   useEffect(() => {
@@ -197,7 +197,7 @@ const HomePage: React.FC = () => {
               <div className="space-y-3">
                 <Button
                   onClick={retryFetch}
-                  className="w-full bg-compass-primary text-white hover:bg-orange-600 h-12 rounded-xl font-medium transition-all duration-300 hover:shadow-lg"
+                  className="w-full bg-compass-primary text-white hover:bg-orange-600 h-12 rounded-xl font-medium transition-all duration-300 hover:shadow-lg py-8 sm:py-6"
                 >
                   <Loader2 className="w-4 h-4 mr-2" />
                   Try Again
@@ -211,7 +211,7 @@ const HomePage: React.FC = () => {
                       setShowAuthModal(true);
                     }
                   }}
-                  className="w-full border-2 border-compass-primary text-compass-primary hover:bg-compass-primary hover:text-white h-12 rounded-xl font-medium transition-all duration-300"
+                  className="w-full border-2 border-compass-primary text-compass-primary hover:bg-compass-primary hover:text-white h-12 rounded-xl font-medium transition-all duration-300 py-8 sm:py-6"
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   Add Your Recipe
@@ -285,7 +285,7 @@ const HomePage: React.FC = () => {
                       setShowAuthModal(true);
                     }
                   }}
-                  className="bg-gradient-to-r from-compass-primary to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  className="bg-gradient-to-r from-compass-primary to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-8 sm:py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >
                   <Plus className="w-5 h-5 mr-2" />
                   Share Your First Recipe
@@ -353,7 +353,7 @@ const HomePage: React.FC = () => {
                         setShowAuthModal(true);
                       }
                     }}
-                    className="bg-gradient-to-r from-compass-primary to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                    className="bg-gradient-to-r from-compass-primary to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-8 sm:py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                   >
                     <Plus className="w-5 h-5 mr-2" />
                     Share Your Recipe
@@ -361,7 +361,7 @@ const HomePage: React.FC = () => {
                   <Button
                     variant="outline"
                     onClick={() => document.getElementById('recipes-section')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="border-2 border-compass-primary text-compass-primary hover:bg-compass-primary hover:text-white px-8 py-4 text-lg rounded-xl transition-all duration-300"
+                    className="border-2 border-compass-primary text-compass-primary hover:bg-compass-primary hover:text-white px-8 py-8 sm:py-6 text-lg rounded-xl transition-all duration-300"
                   >
                     <Search className="w-5 h-5 mr-2" />
                     Explore Recipes
@@ -431,7 +431,7 @@ const HomePage: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-playfair font-bold text-gray-800">
               Top Rated Recipes
             </h2>
-            <Button variant="ghost" className="text-compass-primary hover:underline transition-colors">
+            <Button variant="ghost" className="text-compass-primary hover:underline transition-colors py-8 sm:py-6">
               View All <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
@@ -495,7 +495,7 @@ const HomePage: React.FC = () => {
                   setShowAuthModal(true);
                 }
               }}
-              className="bg-compass-primary hover:bg-orange-600 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              className="bg-compass-primary hover:bg-orange-600 text-white px-6 py-8 sm:py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add Your Recipe
@@ -522,7 +522,7 @@ const HomePage: React.FC = () => {
               whileHover={{ y: -5 }}
             >
               <Card className="rounded-xl shadow-md cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                <CardContent className="flex flex-col items-center justify-center p-6 text-center">
+                <CardContent className="flex flex-col items-center justify-center p-6 text-center w-[150px]">
                   {/* The icon's background and color are now dynamic */}
                   <div className={`bg-gradient-to-r ${cuisine.colors.bg} p-3 rounded-full mb-3`}>
                     <cuisine.icon className={`w-8 h-8 ${cuisine.colors.text}`} />

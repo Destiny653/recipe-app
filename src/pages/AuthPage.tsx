@@ -75,6 +75,7 @@ const AuthPage: React.FC = () => {
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="JohnDoe"
                     required
+                    className="py-8 sm:py-6"
                   />
                 </div>
               )}
@@ -87,6 +88,7 @@ const AuthPage: React.FC = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@example.com"
                   required
+                  className="py-8 sm:py-6"
                 />
               </div>
               <div className="space-y-2">
@@ -97,9 +99,10 @@ const AuthPage: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  className="py-8 sm:py-6"
                 />
               </div>
-              <Button type="submit" className="w-full bg-compass-primary hover:bg-orange-600 text-white" disabled={loading}>
+              <Button type="submit" className="w-full bg-compass-primary hover:bg-orange-600 text-white py-8 sm:py-6" disabled={loading}>
                 {loading ? (isLoginMode ? 'Logging in...' : 'Registering...') : (isLoginMode ? 'Login' : 'Register')}
               </Button>
             </form>

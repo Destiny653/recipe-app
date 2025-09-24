@@ -1,9 +1,12 @@
 // File: src/components/RecipeCard.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Star, StarHalf, Clock, Flame, Utensils, User } from 'lucide-react';
+import { Star, StarHalf, Clock, Flame, Utensils, User, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { useApi } from '../hooks/useApi';
+import { useAuth } from '../contexts/AuthContext';
+import { useToast } from '../hooks/use-toast';
 
 interface RecipeCardProps {
   recipe: {
@@ -25,6 +28,28 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
   const [imageSrc, setImageSrc] = useState(
     recipe.image.startsWith('/images/') ? recipe.image : `http://localhost:5000${recipe.image}`
   );
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<any>(null);
+
+  const { request } = useApi();
+  const { isAuthenticated, token } = useAuth();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (isAuthenticated && token) {
+      const fetchUserProfile = async () => {
+        try {
+          const userData = await request({ url: '/users/profile', method: 'GET' });
+          setUser(userData);
+        } catch (error) {
+          console.error('Failed to fetch user profile:', error);
+        }
+      };
+      fetchUserProfile();
+    }
+  }, [isAuthenticated, token, request]);
   
   const handleImageError = () => {
     // Fallback to a placeholder image if the main image fails to load
@@ -68,7 +93,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
           <motion.img
             src={imageSrc}
             alt={recipe.title}
-            className="w-full h-48 object-cover object-center transition-transform duration-500"
+            className="w-56 h-56 rounded-full object-cover object-center mx-auto mt-4 transition-transform duration-500"
             whileHover={{ scale: 1.1 }}
             onError={handleImageError}
           />

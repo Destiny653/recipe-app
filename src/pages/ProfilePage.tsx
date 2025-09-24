@@ -1,11 +1,12 @@
 // File: src/pages/ProfilePage.tsx
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { User2, Heart, CookingPot, Loader2, Frown, LogOut } from 'lucide-react';
+import { User2, Heart, CookingPot, Loader2, Frown, LogOut, Trash2 } from 'lucide-react';
 import { useApi } from '../hooks/useApi';
 import { useAuth } from '../contexts/AuthContext';
 import RecipeCard from '../components/RecipeCard';
 import { Separator } from '../components/ui/separator';
+import { useToast } from '../hooks/use-toast';
 
 interface Recipe {
   _id: string;
@@ -91,7 +92,7 @@ const ProfilePage: React.FC = () => {
           </p>
           <button
             onClick={handleLogout}
-            className="flex items-center space-x-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+            className="flex items-center space-x-2 bg-red-500 text-white px-4 py-4 sm:py-4 rounded-lg hover:bg-red-600 transition-colors"
           >
             <LogOut className="w-4 h-4" />
             <span>Logout</span>

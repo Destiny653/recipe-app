@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { CookingPot, PlusCircle, User2, LogOut } from 'lucide-react';
+import { CookingPot, PlusCircle, User2, LogOut, List } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const Header: React.FC = () => {
@@ -13,6 +13,8 @@ const Header: React.FC = () => {
   };
 
   return (
+    <div className='mb-20'>
+
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -32,20 +34,26 @@ const Header: React.FC = () => {
         <nav>
           <ul className="flex space-x-4 md:space-x-6">
             <motion.li whileHover={{ scale: 1.1 }}>
-              <Link to="/add-recipe" className="flex flex-col items-center text-gray-700 hover:text-compass-primary transition-colors">
+              <Link to="/recipes" className="flex flex-col items-center text-gray-700 hover:text-compass-primary transition-colors py-8 sm:py-6">
+                <List className="w-6 h-6" />
+                <span className="text-xs font-poppins mt-1 hidden md:block">View All</span>
+              </Link>
+            </motion.li>
+            <motion.li whileHover={{ scale: 1.1 }}>
+              <Link to="/add-recipe" className="flex flex-col items-center text-gray-700 hover:text-compass-primary transition-colors py-8 sm:py-6">
                 <PlusCircle className="w-6 h-6" />
                 <span className="text-xs font-poppins mt-1 hidden md:block">Add Recipe</span>
               </Link>
             </motion.li>
             <motion.li whileHover={{ scale: 1.1 }}>
-              <Link to="/profile" className="flex flex-col items-center text-gray-700 hover:text-compass-primary transition-colors">
+              <Link to="/profile" className="flex flex-col items-center text-gray-700 hover:text-compass-primary transition-colors py-8 sm:py-6">
                 <User2 className="w-6 h-6" />
                 <span className="text-xs font-poppins mt-1 hidden md:block">Profile</span>
               </Link>
             </motion.li>
             {isAuthenticated && (
               <motion.li whileHover={{ scale: 1.1 }}>
-                <button onClick={handleLogout} className="flex flex-col items-center text-gray-700 hover:text-red-500 transition-colors">
+                <button onClick={handleLogout} className="flex flex-col items-center text-gray-700 hover:text-red-500 transition-colors py-8 sm:py-6">
                   <LogOut className="w-6 h-6" />
                   <span className="text-xs font-poppins mt-1 hidden md:block">Logout</span>
                 </button>
@@ -55,6 +63,7 @@ const Header: React.FC = () => {
         </nav>
       </div>
     </motion.header>
+    </div>
   );
 };
 

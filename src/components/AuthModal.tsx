@@ -65,7 +65,7 @@ const AuthModal: React.FC = () => {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed top-0 right-0 h-full w-96 bg-white shadow-lg z-50 overflow-y-auto"
+            className="fixed top-0 right-0 h-full w-96 md:w-[600px] bg-white shadow-lg z-50 overflow-y-auto"
           >
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
@@ -74,7 +74,7 @@ const AuthModal: React.FC = () => {
                 </h2>
                 <button
                   onClick={() => setShowAuthModal(false)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-gray-500 hover:text-gray-700 py-8 sm:py-6"
                 >
                   ✕
                 </button>
@@ -89,6 +89,7 @@ const AuthModal: React.FC = () => {
                       onChange={(e) => setUsername(e.target.value)}
                       placeholder="JohnDoe"
                       required
+                      className="py-8 sm:py-6"
                     />
                   </div>
                 )}
@@ -101,6 +102,7 @@ const AuthModal: React.FC = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@example.com"
                     required
+                    className="py-8 sm:py-6"
                   />
                 </div>
                 <div className="space-y-2">
@@ -108,12 +110,13 @@ const AuthModal: React.FC = () => {
                   <Input
                     id="password"
                     type="password"
+                    className="py-8 sm:py-6"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full bg-compass-primary hover:bg-orange-600 text-white" disabled={loading}>
+                <Button type="submit" className="w-full bg-compass-primary hover:bg-orange-600 text-white py-8 sm:py-6" disabled={loading}>
                   {loading ? (isLoginMode ? 'Logging in...' : 'Registering...') : (isLoginMode ? 'Login' : 'Register')}
                 </Button>
               </form>
