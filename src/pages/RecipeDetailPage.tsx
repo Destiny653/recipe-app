@@ -165,7 +165,7 @@ const RecipeDetailPage: React.FC = () => {
           {/* Image and quick details section */}
           <div className="w-full md:w-1/2 flex-shrink-0">
             <motion.img
-              src={`http://localhost:5000${recipe.image}`}
+              src={`https://recipe-server-y83k.onrender.com/${recipe.image}`}
               alt={recipe.title}
               className="w-full h-auto rounded-2xl object-cover shadow-md"
               initial={{ scale: 0.95 }}
