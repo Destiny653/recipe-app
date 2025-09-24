@@ -25,7 +25,7 @@ interface RecipeCardProps {
 const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
   const averageRating = recipe.averageRating ? Math.round(recipe.averageRating * 10) / 10 : 0;
   const [imageSrc, setImageSrc] = useState(
-    recipe.image.startsWith('/images/') ? recipe.image : `http://localhost:5000${recipe.image}`
+    recipe.image.startsWith('/images/') ? recipe.image : `https://recipe-server-y83k.onrender.com/${recipe.image}`
   );
   const [user, setUser] = useState<any>(null);
   console.log(user)
